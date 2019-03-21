@@ -14,11 +14,11 @@ import torch.optim as optim
 import time
 import numpy as np
 import sys
-from models.baseline_snli import encoder
-from models.baseline_snli import atten
+from models.nn_architectures import encoder
+from models.nn_architectures import atten
 import argparse
-from models.snli_data import snli_data
-from models.snli_data import w2v
+from models.read_snli_data import snli_data
+from models.read_snli_data import w2v
 from random import shuffle
 
 
