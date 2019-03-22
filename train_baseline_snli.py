@@ -298,7 +298,7 @@ if __name__ == '__main__':
                         type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/glove.hdf5')
 
     parser.add_argument('--log_dir', help='log file directory',
-                        type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/experiment_struc/')
+                        type=str, default='logs/')
 
     parser.add_argument('--log_fname', help='log file name',
                         type=str, default='log54.log')
@@ -345,7 +345,7 @@ if __name__ == '__main__':
                         type=float, default=5e-5)
 
     parser.add_argument('--model_path', help='path of model file (not include the name suffix',
-                        type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/experiment_struc/')
+                        type=str, default='logs/')
 
     args=parser.parse_args()
     # args.max_lenght = 10   # args can be set manually like this
