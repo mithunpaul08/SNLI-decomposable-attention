@@ -90,8 +90,8 @@ def train(args):
         logger.info('No Optimizer.')
         sys.exit()
 
-    criterion = nn.NLLLoss(size_average=True)
-    # criterion = nn.CrossEntropyLoss()
+    #criterion = nn.NLLLoss(size_average=True)
+    criterion = nn.CrossEntropyLoss()
 
     logger.info('start to train...')
     for k in range(args.epoch):
@@ -151,7 +151,7 @@ def train(args):
                 if isinstance(m, nn.Linear):
                     grad_norm += m.weight.grad.data.norm() ** 2
                     para_norm += m.weight.data.norm() ** 2
-                    if m.bias:
+                    if m.bias is not None:
                         grad_norm += m.bias.grad.data.norm() ** 2
                         para_norm += m.bias.data.norm() ** 2
 
@@ -176,7 +176,7 @@ def train(args):
             _, predict = log_prob.data.max(dim=1)
             total += train_lbl_batch.data.size()[0]
             correct += torch.sum(predict == train_lbl_batch.data)
-            loss_data += (loss.data[0] * batch_size)  # / train_lbl_batch.data.size()[0])
+            loss_data += (loss.item() * batch_size)  # / train_lbl_batch.data.size()[0])
 
             if (i + 1) % args.display_interval == 0:
                 logger.info('epoch %d, batches %d|%d, train-acc %.3f, loss %.3f, para-norm %.3f, grad-norm %.3f, time %.2fs, ' %
@@ -223,6 +223,8 @@ def train(args):
                 total += dev_lbl_batch.data.size()[0]
                 correct += torch.sum(predict == dev_lbl_batch.data)
 
+            print(f"correct count={correct}")
+            print(f"totali count ={total}")
             dev_acc = correct / total
             logger.info('dev-acc %.3f' % (dev_acc))
 
@@ -298,7 +300,7 @@ if __name__ == '__main__':
                         type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/glove.hdf5')
 
     parser.add_argument('--log_dir', help='log file directory',
-                        type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/experiment_struc/')
+                        type=str, default='logs/')
 
     parser.add_argument('--log_fname', help='log file name',
                         type=str, default='log54.log')
@@ -345,7 +347,7 @@ if __name__ == '__main__':
                         type=float, default=5e-5)
 
     parser.add_argument('--model_path', help='path of model file (not include the name suffix',
-                        type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/experiment_struc/')
+                        type=str, default='logs/')
 
     args=parser.parse_args()
     # args.max_lenght = 10   # args can be set manually like this

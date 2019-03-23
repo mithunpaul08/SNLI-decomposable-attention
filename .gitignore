@@ -1,3 +1,8 @@
+logs
+*.pyc
+*.log
+print()
+__*
 data
 .idea
 
