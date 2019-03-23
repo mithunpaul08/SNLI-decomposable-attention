@@ -176,7 +176,7 @@ def train(args):
             _, predict = log_prob.data.max(dim=1)
             total += train_lbl_batch.data.size()[0]
             correct += torch.sum(predict == train_lbl_batch.data)
-	    loss_data += (loss.item() * batch_size)  # / train_lbl_batch.data.size()[0])
+            loss_data += (loss.item() * batch_size)  # / train_lbl_batch.data.size()[0])
 
             if (i + 1) % args.display_interval == 0:
                 logger.info('epoch %d, batches %d|%d, train-acc %.3f, loss %.3f, para-norm %.3f, grad-norm %.3f, time %.2fs, ' %
@@ -223,6 +223,8 @@ def train(args):
                 total += dev_lbl_batch.data.size()[0]
                 correct += torch.sum(predict == dev_lbl_batch.data)
 
+            print(f"correct count={correct}")
+            print(f"totali count ={total}")
             dev_acc = correct / total
             logger.info('dev-acc %.3f' % (dev_acc))
 
