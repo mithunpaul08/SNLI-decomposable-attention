@@ -56,11 +56,12 @@ def train(args):
     train_lbl_size = 3
     dev_data = snli_data(args.dev_file, args.max_length)
     dev_batches = dev_data.batches
-    test_data = snli_data(args.test_file, args.max_length)
-    test_batches = test_data.batches
+
+    # test_data = snli_data(args.test_file, args.max_length)
+    # test_batches = test_data.batches
     logger.info('train size # sent ' + str(train_data.size))
     logger.info('dev size # sent ' + str(dev_data.size))
-    logger.info('test size # sent ' + str(test_data.size))
+    # logger.info('test size # sent ' + str(test_data.size))
 
     # get input embeddings
     logger.info('loading input embeddings...')
@@ -263,20 +264,21 @@ def train(args):
     correct = 0.
     total = 0.
 
-    for i in range(len(test_batches)):
-        test_src_batch, test_tgt_batch, test_lbl_batch = test_batches[i]
-
-        test_src_batch = Variable(test_src_batch.cuda())
-        test_tgt_batch = Variable(test_tgt_batch.cuda())
-        test_lbl_batch = Variable(test_lbl_batch.cuda())
-
-        test_src_linear, test_tgt_linear=input_encoder(
-            test_src_batch, test_tgt_batch)
-        log_prob=inter_atten(test_src_linear, test_tgt_linear)
-
-        _, predict=log_prob.data.max(dim=1)
-        total += test_lbl_batch.data.size()[0]
-        correct += torch.sum(predict == test_lbl_batch.data)
+    #test data partition related code. mithun commenting out on march 24th because the actual fe3ver test we are leaving ujntouched as of now.
+    # for i in range(len(test_batches)):
+    #     test_src_batch, test_tgt_batch, test_lbl_batch = test_batches[i]
+    #
+    #     test_src_batch = Variable(test_src_batch.cuda())
+    #     test_tgt_batch = Variable(test_tgt_batch.cuda())
+    #     test_lbl_batch = Variable(test_lbl_batch.cuda())
+    #
+    #     test_src_linear, test_tgt_linear=input_encoder(
+    #         test_src_batch, test_tgt_batch)
+    #     log_prob=inter_atten(test_src_linear, test_tgt_linear)
+    #
+    #     _, predict=log_prob.data.max(dim=1)
+    #     total += test_lbl_batch.data.size()[0]
+    #     correct += torch.sum(predict == test_lbl_batch.data)
 
     test_acc = correct / total
     logger.info('test-acc %.3f' % (test_acc)) 
@@ -293,8 +295,8 @@ if __name__ == '__main__':
     parser.add_argument('--dev_file', help='development data file (hdf5)',
                         type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/entail-val.hdf5')
 
-    parser.add_argument('--test_file', help='test data file (hdf5)',
-                        type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/entail-test.hdf5')
+    # parser.add_argument('--test_file', help='test data file (hdf5)',
+    #                     type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/entail-test.hdf5')
 
     parser.add_argument('--w2v_file', help='pretrained word vectors file (hdf5)',
                         type=str, default='/disk/scratch/bowenli/nmt/struct-attn/data/snli/baseline/glove.hdf5')
