@@ -280,8 +280,8 @@ def train(args):
     #     total += test_lbl_batch.data.size()[0]
     #     correct += torch.sum(predict == test_lbl_batch.data)
 
-    test_acc = correct / total
-    logger.info('test-acc %.3f' % (test_acc)) 
+    #test_acc = correct / total
+    #logger.info('test-acc %.3f' % (test_acc))
 
 
 if __name__ == '__main__':
