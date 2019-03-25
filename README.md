@@ -9,7 +9,7 @@ Note to self: once you have the hdf5 files, use conda environment in clara calle
 
 
 
-Have installed pytorch on this environment using :
+Note: Have installed pytorch for python2.7 on this environment using :
 `conda install pytorch torchvision cudatoolkit=8.0 -c pytorch`
 
 

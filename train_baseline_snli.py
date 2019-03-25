@@ -326,14 +326,14 @@ if __name__ == '__main__':
                         type=float, default=0.)
 
     parser.add_argument('--lr', help='learning rate',
-                        type=float, default=0.05)
+                        type=float, default=0.005)
 
     parser.add_argument('--hidden_size', help='hidden layer size',
-                        type=int, default=300)
+                        type=int, default=200)
 
     parser.add_argument('--max_length', help='maximum length of training sentences,\
                         -1 means no length limit',
-                        type=int, default=10)
+                        type=int, default=1000)
 
     parser.add_argument('--display_interval', help='interval of display',
                         type=int, default=1000)
