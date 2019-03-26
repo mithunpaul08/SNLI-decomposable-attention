@@ -76,8 +76,12 @@ def train(args):
     input_encoder.embedding.weight.requires_grad = False
     inter_atten = atten(args.hidden_size, train_lbl_size, args.para_init)
 
-    input_encoder.cuda()
-    inter_atten.cuda()
+    if (torch.cuda.is_available()):
+        input_encoder.cuda()
+        inter_atten.cuda()
+    else:
+        input_encoder.cpu()
+        inter_atten.cpu()
 
     para1 = filter(lambda p: p.requires_grad, input_encoder.parameters())
     para2 = inter_atten.parameters()
@@ -108,10 +112,14 @@ def train(args):
         for i in range(len(train_batches)):
 
             train_src_batch, train_tgt_batch, train_lbl_batch = train_batches[i]
-
-            train_src_batch = Variable(train_src_batch.cuda())
-            train_tgt_batch = Variable(train_tgt_batch.cuda())
-            train_lbl_batch = Variable(train_lbl_batch.cuda())
+            if (torch.cuda.is_available()):
+                train_src_batch = Variable(train_src_batch.cuda())
+                train_tgt_batch = Variable(train_tgt_batch.cuda())
+                train_lbl_batch = Variable(train_lbl_batch.cuda())
+            else:
+                train_src_batch = Variable(train_src_batch)
+                train_tgt_batch = Variable(train_tgt_batch)
+                train_lbl_batch = Variable(train_lbl_batch)
 
             batch_size = train_src_batch.size(0)
             train_sents += batch_size
@@ -208,9 +216,16 @@ def train(args):
             for i in range(len(dev_batches)):
                 dev_src_batch, dev_tgt_batch, dev_lbl_batch = dev_batches[i]
 
-                dev_src_batch = Variable(dev_src_batch.cuda())
-                dev_tgt_batch = Variable(dev_tgt_batch.cuda())
-                dev_lbl_batch = Variable(dev_lbl_batch.cuda())
+                if (torch.cuda.is_available()):
+                    dev_src_batch = Variable(dev_src_batch.cuda())
+                    dev_tgt_batch = Variable(dev_tgt_batch.cuda())
+                    dev_lbl_batch = Variable(dev_lbl_batch.cuda())
+                else:
+                    dev_src_batch = Variable(dev_src_batch)
+                    dev_tgt_batch = Variable(dev_tgt_batch)
+                    dev_lbl_batch = Variable(dev_lbl_batch)
+
+
 
                 # if dev_lbl_batch.data.size(0) == 1:
                 #     # simple sample batch
