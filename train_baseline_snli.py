@@ -224,9 +224,8 @@ def train(args):
                 total += dev_lbl_batch.data.size()[0]
                 correct += torch.sum(predict == dev_lbl_batch.data)
 
-            print(f"correct count={correct}")
-            print(f"totali count ={total}")
-            dev_acc = correct / total
+
+            dev_acc =  correct /  total
             logger.info('dev-acc %.3f' % (dev_acc))
 
             if (k + 1) / args.dev_interval == 1:
