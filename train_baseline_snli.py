@@ -43,7 +43,8 @@ def train(args):
     console.setLevel(logging.INFO)
     logger.addHandler(console)
 
-    torch.cuda.set_device(args.gpu_id)
+    if(torch.cuda.is_available()):
+        torch.cuda.set_device(args.gpu_id)
 
     for arg in vars(args):
         logger.info(str(arg) + ' ' + str(getattr(args, arg)))
